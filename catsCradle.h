@@ -22,6 +22,7 @@ using namespace std;
 
 class catsCradle{
 	public:
+		catsCradle(){}
 		catsCradle(string textfile, int Openthefile){ //constructor which takes in file name, reads+stores whole file
 			ifstream in;
 			string str;
@@ -82,8 +83,10 @@ class catsCradle{
 				pos = temp.find(delim);
 				if(pos!=string::npos){
 					tempstring = temp.substr(0,pos);
-					catsCradle getpushed(tempstring);
-					theReturn.push_back(getpushed);
+					if(tempstring.length()>0){
+						catsCradle getpushed(tempstring);
+						theReturn.push_back(getpushed);
+					}
 					temp.erase(0,pos+delim.length());
 				}
 				else{
@@ -141,6 +144,23 @@ class catsCradle{
 			return i;
 		}
 
+		int find(int x, string delim){ //find a string after a specified number
+			string temp;
+			size_t pos;
+			temp = name;
+
+			temp = temp.substr(x,temp.length());
+			pos = temp.find(delim);
+			if(pos!=string::npos){
+				return pos;
+			}
+			else{
+				return -1;
+			}
+		}
+		void insert(int x, int y){
+
+		}
 		string eraseFirst(string x){
 			size_t pos;
 			pos = name.find(x);
@@ -161,8 +181,10 @@ class catsCradle{
 			}
 			return name;
 		}
-
-		string getName(){
+		int getInt(){
+			return atoi(name.c_str());
+		}
+		string getStr(){
 			return name;
 		}
 		
@@ -170,18 +192,14 @@ class catsCradle{
 			return name.length();
 		}
 
+		catsCradle& operator= (catsCradle rhs){ //returns pointer to heap variable
+			catsCradle *a = new catsCradle(rhs.getStr());
+			return *a;
+		}
 	private:
 		string name;
 };
 
 /*
-This is a library file made to parse c++ strings with ease. You may pass strings, document names, **website urls**
-Constructor(string,mode) 0=work with string, 1=open and read file
-getName() : Returns the string that is stored in the object
-getLength() : returns the length of the string
-count(string) : returns how many times that string is in the object
-findBetween(delim1,delim2) : returns the first occurrance of the string that is contained by the two delimeters
-findBetweenAll(delim1,delim2) : returns a vector with all strings contained by these delimeters
-eraseFirst(string) : Erases the first occurrance of the string from the catsCradle object. Returns the modified string
-eraseAll(string) : Erases all occurrances of the string from the catsCradle object. Returns modified string //THE catsCradle IS MODIFIED WITH THIS METHOD
+
 */
