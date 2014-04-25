@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //																					//
-//											//
+//						catsCradle: a simple string parsing library					//
+//										Jason Kholodnov								//
 //																					//
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -21,7 +22,7 @@ using namespace std;
 
 class catsCradle{
 	public:
-		catsCradle(string textfile, int Openthefile){
+		catsCradle(string textfile, int Openthefile){ //constructor which takes in file name, reads+stores whole file
 			ifstream in;
 			string str;
 			in.open(textfile.c_str());
@@ -36,38 +37,11 @@ class catsCradle{
 			in.close();
 			name = str;
 		}
-		catsCradle(string x){
+		catsCradle(string x){ //or you can pass it a string
 			name = x;
 		}
-		void openFile(string textfile){
-			ifstream in;
-			string str;
-			in.open(textfile.c_str());
-			if(in.is_open()){ 
-				in.seekg(0,ios::end);  
-				str.reserve(in.tellg());
-				in.seekg(0,ios::beg);
-				 
-				str.assign((istreambuf_iterator<char>(in)),
-						istreambuf_iterator<char>());
-			}
-			in.close();
-			name = str;
-		}
-		string findBeforeDelim(string delim1, string delim2){//Returns what is between the two delimeters in the webpage.
-			size_t pos;
-			string temp = name;
-			pos = temp.find(delim1);
-			if(pos!=string::npos){
-				temp.erase(0,pos+delim1.length());
-				pos = temp.find(delim2);
-				if(pos!=string::npos){
-					string temp1 = temp.substr(0,pos);
-					return temp1;
-				}
-			}
-		}
-		string findBeforeDelim(int delim, string delim2){//Returns what is between the two delimeters in the webpage.
+
+		string findBeforeDelim(int delim, string delim2){//Returns what is between the two delimeters
 			size_t pos;
 			string tempstring;
 			string temp = name;
@@ -77,7 +51,7 @@ class catsCradle{
 				return tempstring;
 			}
 		}
-		vector<catsCradle> getAllRows(){
+		vector<catsCradle> getAllRows(){//returns all of the rows in a the name
 			size_t pos;
 			vector<catsCradle> theReturn;
 			string temp = name;
@@ -99,7 +73,7 @@ class catsCradle{
 			}
 			return theReturn;
 		}
-		vector<catsCradle> separatebyDelim(string delim) const{	//get blank space separated strings
+		vector<catsCradle> separatebyDelim(string delim) const{	//separate strings based on delimeters (csv, bsv, etc)
 			size_t pos;
 			vector<catsCradle> theReturn;
 			string tempstring;
